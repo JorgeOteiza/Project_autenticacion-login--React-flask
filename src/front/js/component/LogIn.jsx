@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
+import "../../styles/logIn.css";
 
 const LogIn = () => {
   const { store, actions } = useContext(Context);
@@ -13,30 +14,32 @@ const LogIn = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    actions.login(email, password).then((res) => {
-      navigate("/");
-    });
-
-    setTimeout(() => {
-      const token = localStorage.getItem("token");
-      if (!token) {
+    actions
+      .login(email, password)
+      .then((res) => {
+        if (res) {
+          Swal.fire({
+            icon: "success",
+            title: "Has accedido correctamente!",
+          });
+          navigate(`/perfil/${store.user.id}`); // Redirige al perfil del usuario
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Datos erróneos o usuario inexistente!",
+          });
+          setEmail("");
+          setPassword("");
+        }
+      })
+      .catch((err) => {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Datos erróneos o usuario inexiste!",
+          text: "Hubo un problema en la autenticación!",
         });
-        setEmail("");
-        setPassword("");
-      } else {
-        Swal.fire({
-          icon: "success",
-          title: "Has accedido correctamente!",
-        });
-        setTimeout(() => {
-          window.location.reload(false);
-        }, 1500);
-      }
-    }, 2000);
+      });
   };
 
   return (
