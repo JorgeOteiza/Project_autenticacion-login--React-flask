@@ -5,7 +5,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Ocupa toda la altura de la ventana */
 }
 
 form {

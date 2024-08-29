@@ -50,7 +50,7 @@ const LogIn = () => {
   };
 
   return (
-    <div className="login-container col-12 mx-auto m-3">
+    <div className="login-container col-12 mx-auto m-3 h-100">
       <h5>Acceso</h5>
       <form onSubmit={handleLogin}>
         <div className="input-group-login">
