@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2"; // Asegúrate de tener esta importación
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "../../styles/logIn.css";
 
 const LogIn = () => {
@@ -29,7 +29,7 @@ const LogIn = () => {
             icon: "success",
             title: "Has accedido correctamente!",
           });
-          navigate(`/perfil/${store.user.id}`); // Redirige al perfil del usuario
+          navigate(`/perfil/${store.user.id}`);
         } else {
           Swal.fire({
             icon: "error",
@@ -50,113 +50,46 @@ const LogIn = () => {
   };
 
   return (
-    <>
-      <div
-        className="modal fade modal-log-in"
-        tabIndex="-1"
-        id="modalLogin"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-lg">
-          <div className="modal-content modal-content-log-in">
-            <div className="modal-header">
-              <h5 className="modal-title">Acceso</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-login-body mb-3"></div>
+    <div className="login-container col-12 mx-auto m-3">
+      <h5>Acceso</h5>
+      <form onSubmit={handleLogin}>
+        <div className="input-group-login">
+          <div className="input-field pt-4">
+            <span className="far fa-user p-2"></span>
+            <input
+              value={email}
+              id="email"
+              type="text"
+              placeholder="Correo usuario"
+              className="input-field-login"
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-            <form onSubmit={handleLogin}>
-              {/*  input email */}
-              <div className="input-group-login">
-                <div className="input-field pt-4">
-                  <span className="far fa-user p-2"></span>
-                  <input
-                    value={email}
-                    id="email"
-                    type="text"
-                    placeholder="Correo usuario"
-                    className="input-field-login"
-                    required
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-
-                {/* input contraseña */}
-                <div className="form-group-login py-1 pb-2">
-                  <div className="input-field">
-                    <span className="fas fa-lock p-2"></span>
-                    <input
-                      value={password}
-                      id="password"
-                      type="password"
-                      placeholder="Contraseña"
-                      className="input-field-login"
-                      required
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/*  boton ingresar */}
-              <div className="boton-login col-12 mx-auto m-3">
-                <button
-                  type="submit"
-                  className="btn btn-dark w-100"
-                  data-bs-dismiss="modal"
-                >
-                  Ingresar
-                </button>
-              </div>
-            </form>
-
-            <div>
-              {/*   boton google */}
-              <div className="boton-login col-12 mx-auto mb-3">
-                <button
-                  className="btn btn-danger w-100"
-                  type="button"
-                  value="Login"
-                  disabled
-                >
-                  {" "}
-                  (Próximamente) Continúa con{" "}
-                  <i className="fab fa-google me-2"></i>
-                </button>
-              </div>
-            </div>
-
-            {/*  olvide mi contraseña */}
-            <button
-              className="olvide-mi-contraseña mb-2"
-              data-bs-toggle="modal"
-              data-bs-target="#modalRestaurarContraseña"
-              data-bs-dismiss="modal"
-            >
-              ¿Olvidaste tu contraseña?
-            </button>
-
-            {/* link para registro */}
-            <div className="crear-cuenta-login" data-bs-dismiss="modal">
-              <span>
-                <Link
-                  to="/registro"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  Crear una cuenta
-                </Link>
-              </span>
+          <div className="form-group-login py-1 pb-2">
+            <div className="input-field">
+              <span className="fas fa-lock p-2"></span>
+              <input
+                value={password}
+                id="password"
+                type="password"
+                placeholder="Contraseña"
+                className="input-field-login"
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
           </div>
         </div>
-      </div>
-    </>
+
+        <div className="boton-login col-12 mx-auto m-3">
+          <button type="submit" className="btn btn-dark w-100">
+            Ingresar
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

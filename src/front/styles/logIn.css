@@ -1,43 +1,18 @@
-.modal-content-log-in {
-  background-color: #f8f9fa;
-  color: #333;
-  padding: 15px;
-}
+/* logIn.css */
 
-.modal-login-body {
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  min-height: 100vh; /* Ocupa toda la altura de la ventana */
 }
 
-.input-field-login {
-  border-radius: 5px;
-  border: gray 1px solid;
-  align-items: center;
-  cursor: pointer;
-  width: 45%;
-  background-color: whitesmoke;
-}
-
-.input-field-login:focus {
-  outline: #a04c5b 1px solid;
-}
-
-.boton-login {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 50%;
-}
-
-.crear-cuenta-login a {
-  color: black;
-  text-decoration: none;
-  margin: 20px;
-  padding: 15px;
-  font-size: medium;
-}
-
-.olvide-mi-contraseña {
-  color: gray;
-  background-color: #f8f9fa;
-  border: none;
-  padding: 4px;
-  font-size: medium;
+form {
+  width: 100%;
+  max-width: 400px; /* Limita el ancho máximo del formulario */
+  padding: 20px;
+  background-color: #f8f9fa; /* Color de fondo claro para el formulario */
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra para destacar el formulario */
 }
