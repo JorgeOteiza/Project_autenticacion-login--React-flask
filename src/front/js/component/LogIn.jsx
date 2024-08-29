@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"; // Asegúrate de tener esta importación
 import "../../styles/logIn.css";
 
 const LogIn = () => {
@@ -10,6 +11,12 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token && store.user?.id) {
+      navigate(`/perfil/${store.user.id}`);
+    }
+  }, [token, navigate, store.user?.id]);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -98,13 +105,11 @@ const LogIn = () => {
               </div>
 
               {/*  boton ingresar */}
-              <div
-                className="boton-login col-12 mx-auto m-3"
-                data-bs-dismiss="modal"
-              >
+              <div className="boton-login col-12 mx-auto m-3">
                 <button
                   type="submit"
-                  className="btn btn-dark data-bs-dismiss w-100"
+                  className="btn btn-dark w-100"
+                  data-bs-dismiss="modal"
                 >
                   Ingresar
                 </button>
@@ -154,5 +159,5 @@ const LogIn = () => {
     </>
   );
 };
-console.log(process.env.VARIABLE_NAME);
+
 export default LogIn;
