@@ -9,9 +9,9 @@
 
 form {
   width: 100%;
-  max-width: 400px; /* Limita el ancho máximo del formulario */
+  max-width: 400px;
   padding: 20px;
-  background-color: #f8f9fa; /* Color de fondo claro para el formulario */
+  background-color: #d1e4f7;
   border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra para destacar el formulario */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }

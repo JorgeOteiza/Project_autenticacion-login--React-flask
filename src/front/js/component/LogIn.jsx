@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../styles/logIn.css";
 
@@ -51,9 +52,9 @@ const LogIn = () => {
 
   return (
     <div className="login-container col-12 mx-auto m-3 h-100">
-      <h5>Acceso</h5>
+      <h5 className="swal2-show">Acceso</h5>
       <form onSubmit={handleLogin}>
-        <div className="input-group-login">
+        <div className="input-group-login mx-5 px-2">
           <div className="input-field pt-4">
             <span className="far fa-user p-2"></span>
             <input
@@ -83,12 +84,17 @@ const LogIn = () => {
           </div>
         </div>
 
-        <div className="boton-login col-12 mx-auto m-3">
+        <div className="boton-login col-9 mx-auto m-3">
           <button type="submit" className="btn btn-dark w-100">
             Ingresar
           </button>
         </div>
       </form>
+      <Link to="/">
+        <span className="btn btn-link" href="#" role="button">
+          Volver
+        </span>
+      </Link>
     </div>
   );
 };
