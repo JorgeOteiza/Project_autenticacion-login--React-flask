@@ -1,7 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import Logout from "./LogOut.jsx";
 
+// Componente para verificar el token y proteger la página
+const PrivatePage = ({ children }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      navigate("/login"); // Redirige al login si no hay token
+    }
+  }, [navigate]);
+
+  return <>{children}</>; // Retorna los hijos si hay token
+};
+
+// Componente de Perfil
 const Perfil = () => {
   const { store, actions } = useContext(Context);
   const { id } = useParams();
@@ -17,12 +33,17 @@ const Perfil = () => {
   }
 
   return (
-    <div className="perfil-container">
-      <h1>Perfil de {user.email}</h1>
-      <p>ID: {user.id}</p>
-      <p>Email: {user.email}</p>
-      {/* Muestra más información del perfil aquí */}
-    </div>
+    <PrivatePage>
+      {" "}
+      {/* Protege la ruta del perfil */}
+      <div className="perfil-container">
+        <h1>Perfil de {user.email}</h1>
+        <p>ID: {user.id}</p>
+        <p>Email: {user.email}</p>
+        {/* Muestra más información del perfil aquí */}
+        <Logout />
+      </div>
+    </PrivatePage>
   );
 };
 

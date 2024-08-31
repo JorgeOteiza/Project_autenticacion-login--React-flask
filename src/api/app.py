@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
-from models import db, User
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from models import db
+from models import db, User
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 # Configura la base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://gitpod:postgres@localhost:5432/example'

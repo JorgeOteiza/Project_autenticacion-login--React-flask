@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../styles/logIn.css";
 
@@ -19,35 +18,27 @@ const LogIn = () => {
     }
   }, [token, navigate, store.user?.id]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    const response = await fetch(`${process.env.BACKEND_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-    actions
-      .login(email, password)
-      .then((res) => {
-        if (res) {
-          Swal.fire({
-            icon: "success",
-            title: "Has accedido correctamente!",
-          });
-          navigate(`/perfil/${store.user.id}`);
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Datos erróneos o usuario inexistente!",
-          });
-          setEmail("");
-          setPassword("");
-        }
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Hubo un problema en la autenticación!",
-        });
+    if (response.ok) {
+      const data = await response.json();
+      sessionStorage.setItem("token", data.token);
+      navigate("/private");
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Datos erróneos o usuario inexistente!",
       });
+      setEmail("");
+      setPassword("");
+    }
   };
 
   return (
