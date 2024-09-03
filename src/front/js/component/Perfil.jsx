@@ -29,7 +29,11 @@ const Perfil = () => {
   }, [id, actions]);
 
   if (!user) {
-    return <div>Cargando perfil...</div>;
+    return (
+      <div className="PerfilTitle d-flex justify-content-center">
+        Cargando perfil...
+      </div>
+    );
   }
 
   return (
