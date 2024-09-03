@@ -35,7 +35,7 @@ const LogIn = () => {
       if (response.ok) {
         const data = await response.json();
         sessionStorage.setItem("token", data.token);
-        navigate("/private");
+        navigate(`/perfil/${data.user.id}`);
       } else {
         Swal.fire({
           icon: "error",
