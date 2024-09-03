@@ -34,8 +34,6 @@ const Perfil = () => {
 
   return (
     <PrivatePage>
-      {" "}
-      {/* Protege la ruta del perfil */}
       <div className="perfil-container">
         <h1>Perfil de {user.email}</h1>
         <p>ID: {user.id}</p>

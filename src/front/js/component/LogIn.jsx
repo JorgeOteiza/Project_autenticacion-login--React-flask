@@ -20,24 +20,38 @@ const LogIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${process.env.BACKEND_URL}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
-    if (response.ok) {
-      const data = await response.json();
-      sessionStorage.setItem("token", data.token);
-      navigate("/private");
-    } else {
+      if (response.ok) {
+        const data = await response.json();
+        sessionStorage.setItem("token", data.token);
+        navigate("/private");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Datos erróneos o usuario inexistente!",
+        });
+        setEmail("");
+        setPassword("");
+      }
+    } catch (error) {
+      console.error("Error durante el login:", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Datos erróneos o usuario inexistente!",
+        text: "Error al intentar iniciar sesión!",
       });
-      setEmail("");
-      setPassword("");
     }
   };
 
