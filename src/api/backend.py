@@ -1,17 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token
-
-
-
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})  # Permite solicitudes desde React
+
+# Configuración de CORS para permitir solicitudes desde el frontend
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://usuario:password@localhost/nombre_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Cambia esto por una clave secreta segura
@@ -19,9 +15,7 @@ app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Cambia esto por una clave se
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-
 # (Modelos y rutas aquí)
-
 
 @app.route('/login', methods=['POST'])
 def login():
