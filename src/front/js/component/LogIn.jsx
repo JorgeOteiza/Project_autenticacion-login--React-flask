@@ -19,7 +19,6 @@ const LogIn = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "http://localhost:3000",
           },
           body: JSON.stringify({ email, password }),
         }
@@ -28,7 +27,6 @@ const LogIn = () => {
       if (response.ok) {
         const data = await response.json();
         sessionStorage.setItem("token", data.token);
-        // Redirige a /private/:id donde id es el id del usuario logueado
         navigate(`/private/${data.user.id}`);
       } else {
         Swal.fire({
