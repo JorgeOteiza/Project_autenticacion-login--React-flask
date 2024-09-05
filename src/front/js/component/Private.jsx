@@ -30,7 +30,7 @@ const Private = () => {
 
   if (!user) {
     return (
-      <div className="PerfilTitle d-flex justify-content-center">
+      <div className="PerfilTitle d-flex justify-content-center p-5 m-1">
         Cargando perfil...
       </div>
     );

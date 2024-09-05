@@ -13,12 +13,11 @@ export const Home = () => {
 
   return (
     <div className="text-center my-5 py-5">
-      <button
-        className="stylesAcess border-info p-3 my-5 rounded-pill"
-        onClick={handleLoginRedirect}
-      >
-        <h5>Create account</h5>
-      </button>
+      <img
+        src="https://blog.orange.es/wp-content/uploads/2019/06/Login.png"
+        alt="Login"
+        style={{ width: "100%", height: "auto" }}
+      />
     </div>
   );
 };

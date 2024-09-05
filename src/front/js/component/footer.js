@@ -1,5 +1,5 @@
 import React, { Component } from "react";
 
 export const Footer = () => (
-  <footer className="footer py-1 m-5 bg-black opacity-50 text-center rounded-circle"></footer>
+  <footer className="footer pb-5 pt-3 bg-secondary opacity-50 text-center d-flex flex-column min-vh-100"></footer>
 );
