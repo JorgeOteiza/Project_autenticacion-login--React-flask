@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import create_access_token
 
 login_bp = Blueprint('login_bp', __name__)
 
@@ -10,6 +11,7 @@ def login():
 
     # Lógica de autenticación
     if email == "usuario@example.com" and password == "contraseña":
-        return jsonify({"token": "fake-jwt-token", "user": {"id": 1, "email": email}}), 200
+        token = create_access_token(identity=email)
+        return jsonify({"token": token, "user": {"id": 1, "email": email}}), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from models import User
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ app.config['JWT_SECRET_KEY'] = 'any key works'
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-# Aquí agrego las rutas, por ej:
+# Aquí agrego las rutas
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -28,6 +28,7 @@ def login():
     return jsonify({"token": access_token, "user": {"id": user.id, "email": user.email}}), 200
 
 @app.route('/api/user/<int:id>', methods=['GET'])
+@jwt_required() 
 def get_user(id):
     user = User.query.get(id)
     if user is None:

@@ -14,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           initial: "white",
         },
       ],
-      user: null, // Asegúrate de tener un lugar para almacenar el usuario
+      user: null, // Debo crear un lugar para almacenar el usuario*
     },
     actions: {
       // Use getActions to call a function within a function
@@ -50,8 +50,14 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       getUserProfile: async (id) => {
         try {
+          const token = localStorage.getItem("token");
           const response = await fetch(
-            `${process.env.BACKEND_URL}/api/user/${id}`
+            `${process.env.BACKEND_URL}/api/user/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // Asegurarme de enviar el token
+              },
+            }
           );
           if (!response.ok) throw new Error("Error fetching user profile");
           const data = await response.json();
