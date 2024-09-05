@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,14 +9,6 @@ const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (token && store.user?.id) {
-      navigate(`/private/${store.user.id}`);
-    }
-  }, [token, navigate, store.user?.id]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,6 +24,7 @@ const LogIn = () => {
       if (response.ok) {
         const data = await response.json();
         sessionStorage.setItem("token", data.token);
+        // Redirige a /private/:id donde id es el id del usuario logueado
         navigate(`/private/${data.user.id}`);
       } else {
         Swal.fire({
