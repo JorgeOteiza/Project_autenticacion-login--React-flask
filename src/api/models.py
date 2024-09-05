@@ -10,6 +10,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     is_active = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_login = db.Column(db.DateTime, nullable=True) 
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -22,11 +23,17 @@ class User(db.Model):
         """Verifica la contraseña comparando el hash."""
         return check_password_hash(self.password_hash, password)
 
+    def update_last_login(self):
+        """Actualiza el campo last_login con la fecha y hora actual."""
+        self.last_login = datetime.utcnow()
+        db.session.commit()
+
     def serialize(self):
         """Convierte el objeto en un formato JSON serializable."""
         return {
             "id": self.id,
             "email": self.email,
             "created_at": self.created_at.isoformat(),
+            "last_login": self.last_login.isoformat() if self.last_login else None
             # No serializar el hash de la contraseña, es un riesgo de seguridad, no olvidar*
         }

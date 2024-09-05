@@ -20,3 +20,11 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route('/user/<int:id>', methods=['GET'])
+def get_user(id):
+    user = User.query.get(id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+    return jsonify(user.serialize()), 200
+
