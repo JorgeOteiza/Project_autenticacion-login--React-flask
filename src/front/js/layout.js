@@ -19,7 +19,10 @@ const Layout = () => {
   // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
   const basename = process.env.BASENAME || "";
 
-  if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "")
+  if (
+    !process.env.REACT_APP_BACKEND_URL ||
+    process.env.REACT_APP_BACKEND_URL == ""
+  )
     return <BackendURL />;
 
   return (

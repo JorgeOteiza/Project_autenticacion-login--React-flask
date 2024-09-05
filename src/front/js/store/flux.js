@@ -26,7 +26,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           // fetching data from the backend
           const resp = await fetch(
-            process.env.REACT_APP_BACKEND_URL + "/login"
+            process.env.REACT_APP_BACKEND_URL + "/api/hello"
           );
           const data = await resp.json();
           setStore({ message: data.message });
@@ -54,10 +54,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            `${process.env.BACKEND_URL}/api/user/${id}`,
+            `${process.env.REACT_APP_BACKEND_URL}/api/user/${id}`,
             {
               headers: {
-                Authorization: `Bearer ${token}`, // Asegurarme de enviar el token
+                Authorization: `Bearer ${token}`, // Incluye el token en el encabezado
               },
             }
           );
@@ -73,13 +73,16 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Nueva función de login
       login: async (email, password) => {
         try {
-          const response = await fetch(`${process.env.BACKEND_URL}/api/login`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-          });
+          const response = await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/api/login`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            }
+          );
 
           if (!response.ok) {
             throw new Error("Login failed");
