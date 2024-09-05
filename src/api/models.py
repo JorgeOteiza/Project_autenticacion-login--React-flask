@@ -23,9 +23,10 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
     def serialize(self):
+        """Convierte el objeto en un formato JSON serializable."""
         return {
             "id": self.id,
             "email": self.email,
             "created_at": self.created_at.isoformat(),
-            # No serializar el hash de la contraseña, es un riesgo de seguridad
+            # No serializar el hash de la contraseña, es un riesgo de seguridad, no olvidar*
         }
