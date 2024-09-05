@@ -16,7 +16,7 @@ export const Home = () => {
       <img
         src="https://blog.orange.es/wp-content/uploads/2019/06/Login.png"
         alt="Login"
-        style={{ width: "100%", height: "auto" }}
+        style={{ width: "60%", height: "30%" }}
       />
     </div>
   );

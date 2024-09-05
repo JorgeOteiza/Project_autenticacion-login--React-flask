@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const Navbar = () => {
   return (
     <nav className="navbar navbar-light bg-secondary opacity-50 pt-5 pb-3">
-      <div className="container text-adjust-center">
+      <div className="container text-adjust-center d-flex justify-content-end">
         <Link to="/login">
           <span className="navbar-brand mb-0 h1">Registro</span>
         </Link>
