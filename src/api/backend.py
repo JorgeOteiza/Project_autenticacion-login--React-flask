@@ -2,20 +2,21 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token
+from models import User
 
 app = Flask(__name__)
 
-# Configuración CORS para permitir solicitudes desde http://localhost:3000
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+# Configuración CORS para permitir solicitudes desde cualquier origen
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://usuario:password@localhost/nombre_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://gitpod:postgres@localhost/example'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Cambia esto por una clave secreta segura
+app.config['JWT_SECRET_KEY'] = 'any key works'
 
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-# Aquí agregas las rutas, por ejemplo:
+# Aquí agrego las rutas, por ej:
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
