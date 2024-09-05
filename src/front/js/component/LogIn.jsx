@@ -13,13 +13,17 @@ const LogIn = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
