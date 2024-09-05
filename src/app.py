@@ -15,10 +15,10 @@ from api.login import login_bp
 from api.profile import profile_bp
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Registrar Blueprints
-app.register_blueprint(profile_bp)
+app.register_blueprint(profile_bp, url_prefix='/profile')
 app.register_blueprint(login_bp, url_prefix='/login')
 
 

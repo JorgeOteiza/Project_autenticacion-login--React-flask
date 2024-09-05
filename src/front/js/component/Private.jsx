@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext";
+import { Context } from "../store/appContext.js";
 import Logout from "./LogOut.jsx";
 
 // Componente para verificar el token y proteger la página
@@ -17,8 +17,8 @@ const PrivatePage = ({ children }) => {
   return <>{children}</>; // Retorna los hijos si hay token
 };
 
-// Componente de Perfil
-const Perfil = () => {
+// Componente de Private
+const Private = () => {
   const { store, actions } = useContext(Context);
   const { id } = useParams();
   const [user, setUser] = useState(null);
@@ -49,4 +49,4 @@ const Perfil = () => {
   );
 };
 
-export default Perfil;
+export default Private;

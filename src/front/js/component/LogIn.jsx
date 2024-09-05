@@ -14,7 +14,7 @@ const LogIn = () => {
 
   useEffect(() => {
     if (token && store.user?.id) {
-      navigate(`/perfil/${store.user.id}`);
+      navigate(`/private/${store.user.id}`);
     }
   }, [token, navigate, store.user?.id]);
 
@@ -32,7 +32,7 @@ const LogIn = () => {
       if (response.ok) {
         const data = await response.json();
         sessionStorage.setItem("token", data.token);
-        navigate(`/perfil/${data.user.id}`);
+        navigate(`/private/${data.user.id}`);
       } else {
         Swal.fire({
           icon: "error",
@@ -54,7 +54,7 @@ const LogIn = () => {
 
   return (
     <div className="login-container col-12 mx-auto m-3 h-100">
-      <h5 className="swal2-show">Acceso</h5>
+      <h5 className="swal2-show">Registro</h5>
       <form onSubmit={handleLogin}>
         <div className="input-group-login mx-5 px-2">
           <div className="input-field pt-4">
@@ -88,7 +88,7 @@ const LogIn = () => {
 
         <div className="boton-login col-9 mx-auto m-3">
           <button type="submit" className="btn btn-dark w-100">
-            Ingresar
+            Iniciar sesión
           </button>
         </div>
       </form>
