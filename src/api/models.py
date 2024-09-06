@@ -26,7 +26,6 @@ class User(db.Model):
     def update_last_login(self):
         """Actualiza el campo last_login con la fecha y hora actual."""
         self.last_login = datetime.utcnow()
-        db.session.commit()
 
     def serialize(self):
         """Convierte el objeto en un formato JSON serializable."""

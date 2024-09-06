@@ -28,21 +28,20 @@ const LogIn = () => {
         const data = await response.json();
         sessionStorage.setItem("token", data.token);
         navigate(`/private/${data.user.id}`);
-      } else {
+      } else if (response.status === 401) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Datos erróneos o usuario inexistente!",
+          text: "Invalid credentials!",
         });
-        setEmail("");
-        setPassword("");
+      } else {
+        throw new Error("Something went wrong");
       }
     } catch (error) {
-      console.error("Error durante el login:", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Error al intentar iniciar sesión!",
+        text: "Error during login!",
       });
     }
   };
@@ -61,6 +60,7 @@ const LogIn = () => {
               placeholder="Correo usuario"
               className="input-field-login"
               required
+              autoComplete="username"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -75,6 +75,7 @@ const LogIn = () => {
                 placeholder="Contraseña"
                 className="input-field-login"
                 required
+                autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>

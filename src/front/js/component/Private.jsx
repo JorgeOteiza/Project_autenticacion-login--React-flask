@@ -31,7 +31,7 @@ const Private = () => {
   if (!user) {
     return (
       <div className="PerfilTitle d-flex justify-content-center p-5 m-1">
-        Cargando perfil...
+        Error loading profile or user does not exist.
       </div>
     );
   }

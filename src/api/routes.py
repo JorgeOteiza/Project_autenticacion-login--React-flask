@@ -17,22 +17,6 @@ def handle_hello():
     }
     return jsonify(response_body), 200
 
-# Ruta de login
-@api.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-
-    if not email or not password:
-        return jsonify({'message': 'Email and password are required'}), 400
-
-    user = User.query.filter_by(email=email).first()
-    if not user or not check_password_hash(user.password, password):
-        return jsonify({'message': 'Invalid email or password'}), 401
-
-    token = create_access_token(identity=user.id)
-    return jsonify({'token': token, 'user': {"id": user.id, "email": user.email}}), 200
 
 # CRUD de usuarios
 @api.route('/users', methods=['POST'])
@@ -44,6 +28,9 @@ def create_user():
     if not email or not password:
         return jsonify({'message': 'Email and password are required'}), 400
 
+    if len(password) < 6:  # Agregar una verificación para contraseñas seguras
+        return jsonify({'message': 'Password must be at least 6 characters long'}), 400
+
     user = User.query.filter_by(email=email).first()
     if user:
         return jsonify({'message': 'User already exists'}), 400
@@ -52,7 +39,9 @@ def create_user():
     new_user.set_password(password)
     db.session.add(new_user)
     db.session.commit()
+
     return jsonify(new_user.serialize()), 201
+
 
 @api.route('/users', methods=['GET'])
 @jwt_required()
