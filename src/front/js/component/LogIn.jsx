@@ -27,6 +27,7 @@ const LogIn = () => {
       if (response.ok) {
         const data = await response.json();
         sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("userId", data.user.id);
         navigate(`/private/${data.user.id}`);
       } else if (response.status === 401) {
         Swal.fire({
