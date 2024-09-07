@@ -6,7 +6,7 @@ const Logout = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
-    navigate("/");
+    navigate("/login");
   };
 
   return (

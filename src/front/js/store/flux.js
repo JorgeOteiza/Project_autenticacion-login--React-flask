@@ -76,7 +76,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       login: async (email, password) => {
         try {
           const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/api/login`,
+            `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
             {
               method: "POST",
               headers: {

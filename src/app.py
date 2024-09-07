@@ -8,9 +8,12 @@ from api.models import db
 from api.routes import api  # Importa el Blueprint con las rutas
 from api.admin import setup_admin
 from api.commands import setup_commands
+from api.login import login_bp
 
 # Configuración de la aplicación Flask
 app = Flask(__name__)
+
+# Habilitar CORS
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
 # Configuración de la base de datos
@@ -32,6 +35,7 @@ jwt = JWTManager(app)
 setup_admin(app)
 setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')  # Registro de rutas
+app.register_blueprint(login_bp, url_prefix='/auth')  # Registra el blueprint del login
 
 # Manejo de errores
 @app.errorhandler(APIException)

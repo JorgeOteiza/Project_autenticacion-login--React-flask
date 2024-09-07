@@ -14,9 +14,9 @@ const LogIn = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/login`,
+        `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
         {
-          method: "POST",
+          method: "POST", // Asegúrate de que es POST
           headers: {
             "Content-Type": "application/json",
           },
@@ -35,13 +35,13 @@ const LogIn = () => {
           text: "Invalid credentials!",
         });
       } else {
-        throw new Error("Something went wrong");
+        throw new Error("Algo salió mal");
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Error during login!",
+        text: "Error durante el inicio de sesión!",
       });
     }
   };

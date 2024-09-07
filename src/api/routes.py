@@ -1,8 +1,7 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import jwt_required
 from api.models import db, User
 from flask_cors import CORS
-from werkzeug.security import check_password_hash
 
 api = Blueprint('api', __name__)
 
