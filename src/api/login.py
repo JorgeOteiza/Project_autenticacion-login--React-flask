@@ -4,7 +4,7 @@ from api.models import User, db
 
 login_bp = Blueprint('login_bp', __name__)
 
-@login_bp.route('/login', methods=['POST'])  # Asegúrate de que esté definida con 'POST'
+@login_bp.route('/login', methods=['POST'])
 def login_post():
     try:
         # Obtener los datos enviados por el usuario (email y password)

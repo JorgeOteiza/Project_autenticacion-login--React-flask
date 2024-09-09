@@ -14,7 +14,7 @@ const LogIn = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
         {
           method: "POST", // Asegúrate de que es POST
           headers: {
