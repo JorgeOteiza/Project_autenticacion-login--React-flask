@@ -37,10 +37,20 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')  # Registro de rutas
 app.register_blueprint(login_bp, url_prefix='/login')  # Registra el blueprint del login
 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
+
+
 # Manejo de errores
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
+
 
 # Generar sitemap
 @app.route('/')

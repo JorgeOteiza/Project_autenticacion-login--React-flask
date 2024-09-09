@@ -16,9 +16,10 @@ const LogIn = () => {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/login`,
         {
-          method: "POST", // Asegúrate de que es POST
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ email, password }),
         }

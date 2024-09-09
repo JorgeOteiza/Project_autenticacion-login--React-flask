@@ -59,7 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             `${process.env.REACT_APP_BACKEND_URL}/api/user/${id}`,
             {
               headers: {
-                Authorization: `Bearer ${token}`, // Incluye el token en el encabezado
+                Authorization: `Bearer ${token}`,
               },
             }
           );
@@ -81,6 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify({ email, password }),
             }
