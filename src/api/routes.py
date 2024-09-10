@@ -16,46 +16,49 @@ def handle_hello():
     }
     return jsonify(response_body), 200
 
-
-# CRUD de usuarios
-@api.route('/users', methods=['POST'])
-def create_user():
+# Ruta para registro de usuarios
+@api.route('/signup', methods=['POST'])
+def signup():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
 
     if not email or not password:
-        return jsonify({'message': 'Email and password are required'}), 400
-
-    if len(password) < 6:  # Agregar una verificación para contraseñas seguras
-        return jsonify({'message': 'Password must be at least 6 characters long'}), 400
+        return jsonify({"message": "Email and password are required"}), 400
 
     user = User.query.filter_by(email=email).first()
     if user:
-        return jsonify({'message': 'User already exists'}), 400
+        return jsonify({"message": "User already exists"}), 400
 
     new_user = User(email=email)
     new_user.set_password(password)
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify(new_user.serialize()), 201
+    return jsonify({"message": "User created successfully!"}), 201
 
+# CRUD de usuarios
 
+# Obtener todos los usuarios
 @api.route('/users', methods=['GET'])
 @jwt_required()
 def get_users():
     users = User.query.all()
     return jsonify([user.serialize() for user in users]), 200
 
+# Obtener un usuario por su ID
 @api.route('/users/<int:id>', methods=['GET'])
 @jwt_required()
 def get_user(id):
-    user = User.query.get(id)
-    if not user:
-        return jsonify({"message": "User not found"}), 404
-    return jsonify(user.serialize()), 200
+    try:
+        user = User.query.get(id)
+        if not user:
+            return jsonify({"message": "User not found"}), 404
+        return jsonify(user.serialize()), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
+# Actualizar un usuario
 @api.route('/users/<int:id>', methods=['PUT'])
 @jwt_required()
 def update_user(id):
@@ -75,6 +78,7 @@ def update_user(id):
     db.session.commit()
     return jsonify(user.serialize()), 200
 
+# Eliminar un usuario
 @api.route('/users/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_user(id):

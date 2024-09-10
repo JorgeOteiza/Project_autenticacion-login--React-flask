@@ -10,11 +10,11 @@ const PrivatePage = ({ children }) => {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (!token) {
-      navigate("/login"); // Redirige al login si no hay token
+      navigate("/login");
     }
   }, [navigate]);
 
-  return <>{children}</>; // Retorna los hijos si hay token
+  return <>{children}</>;
 };
 
 // Componente de Private
@@ -24,9 +24,29 @@ const Private = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Fetch the user data based on the id from the URL
-    actions.getUserProfile(id).then((data) => setUser(data));
-  }, [id, actions]);
+    actions
+      .getUserProfile(id)
+      .then((data) => {
+        if (data) {
+          setUser(data);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Error loading profile or user does not exist.",
+          });
+          navigate("/login");
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error loading profile!",
+        });
+        navigate("/login");
+      });
+  }, [id, actions, navigate]);
 
   if (!user) {
     return (

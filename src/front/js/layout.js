@@ -1,6 +1,7 @@
 import React from "react";
 import ScrollToTop from "./component/scrollToTop";
 import injectContext from "./store/appContext";
+import Signup from "./component/Signup.jsx";
 import LogIn from "./component/LogIn.jsx";
 import Private from "./component/Private.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -30,10 +31,11 @@ const Layout = () => {
           <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
+            <Route element={<Signup />} path="/signup" />
             <Route element={<Demo />} path="/demo" />
-            <Route element={<Single />} path="/single/:theid" />
             <Route element={<LogIn />} path="/login" />
             <Route element={<Private />} path="/private/:id" />
+            <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
