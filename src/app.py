@@ -16,6 +16,13 @@ app = Flask(__name__)
 # Habilitar CORS
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
+
 # Configuración de la base de datos
 db_url = os.getenv("DATABASE_URL")
 if db_url:
@@ -37,13 +44,6 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')  # Registro de rutas
 app.register_blueprint(login_bp, url_prefix='/login')  # Registra el blueprint del login
 
-@app.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    response.headers.add('Access-Control-Allow-Credentials', 'true')
-    return response
 
 
 # Manejo de errores
