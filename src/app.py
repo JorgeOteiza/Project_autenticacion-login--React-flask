@@ -41,7 +41,7 @@ jwt = JWTManager(app)
 # Registrar Blueprints y comandos
 setup_admin(app)
 setup_commands(app)
-app.register_blueprint(api, url_prefix='/api')  # Registro de rutas
+app.register_blueprint(api, url_prefix='/api')  # Registro de rutas (probar sacando esta línea*)
 app.register_blueprint(login_bp, url_prefix='/login')  # Registra el blueprint del login
 
 

@@ -21,7 +21,7 @@ def setup_commands(app):
         for x in range(1, int(count) + 1):
             user = User()
             user.email = "test_user" + str(x) + "@test.com"
-            user.set_password = "123456"
+            user.set_password("123456")
             user.is_active = True
             db.session.add(user)
             db.session.commit()
