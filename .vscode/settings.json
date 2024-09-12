@@ -4,5 +4,16 @@
   "workbench.editorAssociations": {
     "*.md": "vscode.markdown.preview.editor"
   },
-  "cSpell.words": ["existe", "exitoso", "flujo", "inicio", "necesaria"]
+  "cSpell.words": [
+    "Asume",
+    "creada",
+    "cuenta",
+    "existe",
+    "exitoso",
+    "flujo",
+    "inicio",
+    "necesaria",
+    "privado",
+    "sido"
+  ]
 }

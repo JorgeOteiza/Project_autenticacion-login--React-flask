@@ -17,7 +17,7 @@ def handle_hello():
     return jsonify(response_body), 200
 
 # Ruta para registro de usuarios
-@api.route('/signup', methods=['POST'])
+@api.route('/', methods=['POST'])
 def signup():
     data = request.get_json()
     email = data.get('email')

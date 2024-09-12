@@ -12,45 +12,26 @@ const LogIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        sessionStorage.setItem("token", data.token);
-        sessionStorage.setItem("userId", data.user.id);
-        navigate(`/private/${data.user.id}`);
-      } else if (response.status === 401) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Invalid credentials!",
-        });
-      } else {
-        throw new Error("Algo salió mal");
-      }
-    } catch (error) {
+    const loginSuccess = await actions.login(email, password);
+    if (loginSuccess) {
+      Swal.fire({
+        icon: "success",
+        title: "Inicio de sesión exitoso",
+      });
+      const userId = sessionStorage.getItem("userId");
+      navigate(`/private/${userId}`);
+    } else {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Error durante el inicio de sesión!",
+        text: "Credenciales inválidas",
       });
     }
   };
 
   return (
     <div className="login-container col-12 mx-auto m-3 h-100">
-      <h5 className="swal2-show">Registro</h5>
+      <h5 className="swal2-show">Inicio de sesión</h5>
       <form onSubmit={handleLogin}>
         <div className="input-group-login mx-5 px-2">
           <div className="input-field pt-4">
