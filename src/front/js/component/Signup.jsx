@@ -11,7 +11,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/signup`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/signup`,
         {
           method: "POST",
           headers: {
@@ -21,27 +21,37 @@ const Signup = () => {
         }
       );
 
-      if (response.ok) {
+      if (!response.ok) {
+        const data = await response.json();
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: data.message || "Fallo en el registro",
+        });
+      } else {
         const data = await response.json();
 
-        // Guardar token en sessionStorage y redirigir al perfil privado
-        sessionStorage.setItem("token", data.token); // Asume que el token se devuelve al registrar
-        sessionStorage.setItem("userId", data.user.id);
-        Swal.fire({
-          icon: "success",
-          title: "Bienvenido!",
-          text: "Tu cuenta ha sido creada exitosamente.",
-        });
+        // Verifica que el usuario y el id existan en la respuesta
+        if (data.user && data.user.id) {
+          sessionStorage.setItem("token", data.token); // Guarda el token
+          sessionStorage.setItem("userId", data.user.id); // Guarda el userId
 
-        navigate(`/private/${data.user.id}`); // Redirige al perfil privado
-      } else {
-        throw new Error("Fallo en el registro");
+          Swal.fire({
+            icon: "success",
+            title: "Bienvenido!",
+            text: "Tu cuenta ha sido creada exitosamente.",
+          });
+
+          navigate(`/private/${data.user.id}`); // Redirige al perfil del usuario
+        } else {
+          throw new Error("No se pudo obtener el perfil del usuario");
+        }
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Error durante el registro",
+        text: error.message || "Error durante el registro",
       });
     }
   };
@@ -59,6 +69,7 @@ const Signup = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          autoComplete="username"
         />
         <input
           className="mt1"

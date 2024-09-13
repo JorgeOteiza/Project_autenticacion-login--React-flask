@@ -1,12 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from api.models import db, User
-from flask_cors import CORS
 
 api = Blueprint('api', __name__)
-
-# Allow CORS requests to this API
-CORS(api, resources={r"/*": {"origins": "*"}})
 
 # Ruta para el saludo
 @api.route('/hello', methods=['POST', 'GET'])
@@ -17,25 +13,37 @@ def handle_hello():
     return jsonify(response_body), 200
 
 # Ruta para registro de usuarios
-@api.route('/', methods=['POST'])
+@api.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
 
+    # Verificar si faltan datos
     if not email or not password:
         return jsonify({"message": "Email and password are required"}), 400
 
+    # Verificar si el usuario ya existe
     user = User.query.filter_by(email=email).first()
     if user:
         return jsonify({"message": "User already exists"}), 400
 
+    # Crear el nuevo usuario
     new_user = User(email=email)
     new_user.set_password(password)
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"message": "User created successfully!"}), 201
+    token = create_access_token(identity=new_user.id)
+
+    return jsonify({
+        "message": "User created successfully!",
+        "user": {
+            "id": new_user.id,
+            "email": new_user.email
+        },
+        "token": token
+    }), 201
 
 # CRUD de usuarios
 

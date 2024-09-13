@@ -1,4 +1,5 @@
 import os
+import traceback
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -9,6 +10,7 @@ from api.routes import api  # Importa el Blueprint con las rutas
 from api.admin import setup_admin
 from api.commands import setup_commands
 from api.login import login_bp
+
 
 # Configuración de la aplicación Flask
 app = Flask(__name__)
@@ -42,13 +44,18 @@ jwt = JWTManager(app)
 setup_admin(app)
 setup_commands(app)
 
-app.register_blueprint(api, url_prefix='/signup')  # Registrar el blueprint para el registro
+app.register_blueprint(api, url_prefix='/api')  # Registrar el blueprint para el registro
 app.register_blueprint(login_bp, url_prefix='/login')  # Registrar el blueprint para el login
 
 # Manejo de errores
-@app.errorhandler(APIException)
-def handle_invalid_usage(error):
-    return jsonify(error.to_dict()), error.status_code
+@app.errorhandler(Exception)
+def handle_exception(e):
+    print(traceback.format_exc())
+    response = {
+        "message": "An error occurred",
+        "error": str(e)
+    }
+    return jsonify(response), 500
 
 
 # Generar sitemap
