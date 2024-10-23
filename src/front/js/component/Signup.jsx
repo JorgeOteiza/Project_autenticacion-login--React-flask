@@ -33,8 +33,8 @@ const Signup = () => {
 
         // Verifica que el usuario y el id existan en la respuesta
         if (data.user && data.user.id) {
-          sessionStorage.setItem("token", data.token); // Guarda el token
-          sessionStorage.setItem("userId", data.user.id); // Guarda el userId
+          sessionStorage.setItem("token", data.token);
+          sessionStorage.setItem("userId", data.user.id);
 
           Swal.fire({
             icon: "success",

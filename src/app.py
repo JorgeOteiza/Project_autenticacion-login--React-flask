@@ -11,26 +11,16 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from api.login import login_bp
 
-
 # Configuración de la aplicación Flask
 app = Flask(__name__)
-
-# Habilitar CORS
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
-
-@app.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    response.headers.add('Access-Control-Allow-Credentials', 'true')
-    return response
 
 # Configuración de la base de datos
 db_url = os.getenv("DATABASE_URL")
 if db_url:
+    # Reemplazamos postgres:// con postgresql:// si es necesario para compatibilidad
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+    raise RuntimeError("DATABASE_URL no está configurado. PostgreSQL es requerido.")
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'any key works'
@@ -39,6 +29,15 @@ app.config['JWT_SECRET_KEY'] = 'any key works'
 db.init_app(app)
 Migrate(app, db, compare_type=True)
 jwt = JWTManager(app)
+
+# Habilitar CORS
+CORS(app, resources={r"/*": {"origins": "https://zany-yodel-r4g74qwvg749fx9vp-3000.app.github.dev"}}, supports_credentials=True)
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
 
 # Registrar Blueprints y comandos
 setup_admin(app)
@@ -56,7 +55,6 @@ def handle_exception(e):
         "error": str(e)
     }
     return jsonify(response), 500
-
 
 # Generar sitemap
 @app.route('/')

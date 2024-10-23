@@ -25,29 +25,32 @@ const Private = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    actions
-      .getUserProfile(id) // Llama a la API para obtener el perfil del usuario
-      .then((data) => {
-        if (data) {
-          setUser(data); // Establece el perfil del usuario
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Error loading profile or user does not exist.",
-          });
-          navigate("/login"); // Redirige a login si no hay perfil
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al obtener el perfil');
         }
-      })
-      .catch((error) => {
+
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Error loading profile!",
+          text: error.message || "Error loading profile!",
         });
-        navigate("/login"); // Redirige a login en caso de error
-      });
-  }, [id, actions, navigate]);
+        navigate("/login");
+      }
+    };
+
+    fetchProfile();
+  }, [navigate]);
 
   if (!user) {
     return (
