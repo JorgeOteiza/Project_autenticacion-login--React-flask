@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import create_access_token, jwt_required
 from api.models import db, User
 
 api = Blueprint('api', __name__)
@@ -53,6 +53,8 @@ def signup():
 def get_users():
     users = User.query.all()
     return jsonify([user.serialize() for user in users]), 200
+def protected_route():
+    return jsonify(message="This is a protected route"), 200
 
 # Obtener un usuario por su ID
 @api.route('/users/<int:id>', methods=['GET'])

@@ -4,7 +4,7 @@ from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
-from api.utils import APIException, generate_sitemap
+from api.utils import generate_sitemap
 from api.models import db
 from api.routes import api  # Importa el Blueprint con las rutas
 from api.admin import setup_admin
@@ -29,6 +29,7 @@ app.config['JWT_SECRET_KEY'] = 'any key works'
 db.init_app(app)
 Migrate(app, db, compare_type=True)
 jwt = JWTManager(app)
+print()
 
 # Habilitar CORS
 CORS(app, resources={r"/*": {"origins": "https://zany-yodel-r4g74qwvg749fx9vp-3000.app.github.dev"}}, supports_credentials=True)
