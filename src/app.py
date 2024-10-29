@@ -14,25 +14,25 @@ from api.login import login_bp
 # Configuración de la aplicación Flask
 app = Flask(__name__)
 
-# Configuración de la base de datos
+# Configuración de la base de datos con chequeo y validación
 db_url = os.getenv("DATABASE_URL")
-if db_url:
-    # Reemplazamos postgres:// con postgresql:// si es necesario para compatibilidad
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
-else:
+if not db_url:
     raise RuntimeError("DATABASE_URL no está configurado. PostgreSQL es requerido.")
-
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = 'any key works'
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev_secret_key')
 
-# Inicializar la base de datos y migraciones
-db.init_app(app)
-Migrate(app, db, compare_type=True)
-jwt = JWTManager(app)
-print()
+# Inicialización segura de base de datos y JWT
+try:
+    db.init_app(app)
+    Migrate(app, db, compare_type=True)
+    jwt = JWTManager(app)
+except Exception as e:
+    print("Error initializing database or JWT:", e)
+    raise
 
-# Habilitar CORS
-CORS(app, resources={r"/*": {"origins": "https://zany-yodel-r4g74qwvg749fx9vp-3000.app.github.dev"}}, supports_credentials=True)
+# Configuración de CORS
+CORS(app, resources={r"/*": {"origins": os.getenv("CORS_ORIGIN", "https://localhost:3000")}}, supports_credentials=True)
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
