@@ -72,7 +72,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Nueva función de login
       login: async (email, password) => {
         try {
           const response = await fetch(
@@ -91,7 +90,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          localStorage.setItem("token", data.token); // Almacena el token en localStorage
+          sessionStorage.setItem("token", data.token); // Almacena el token en sessionStorage
           sessionStorage.setItem("userId", data.user.id); // userId se almacena
           setStore({ user: data.user }); // Guarda el usuario en el store
 
