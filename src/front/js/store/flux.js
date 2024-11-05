@@ -91,7 +91,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           sessionStorage.setItem("token", data.token); // Almacena el token en sessionStorage
-          sessionStorage.setItem("userId", data.user.id); // userId se almacena
+          sessionStorage.setItem("userId", data.user.id); // Almacena el userId en sessionStorage
           setStore({ user: data.user }); // Guarda el usuario en el store
 
           return true; // Login exitoso

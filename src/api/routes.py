@@ -13,8 +13,13 @@ def handle_hello():
     return jsonify(response_body), 200
 
 # Ruta para registro de usuarios
-@api.route('/signup', methods=['POST'])
+@api.route('/signup', methods=['OPTIONS', 'POST'])
 def signup():
+    # Respuesta rápida a solicitudes OPTIONS para preflight CORS
+    if request.method == 'OPTIONS':
+        return '', 204
+
+    # Manejar registro en solicitudes POST
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -53,6 +58,10 @@ def signup():
 def get_users():
     users = User.query.all()
     return jsonify([user.serialize() for user in users]), 200
+
+# Ruta protegida de ejemplo
+@api.route('/protected', methods=['GET'])
+@jwt_required()
 def protected_route():
     return jsonify(message="This is a protected route"), 200
 

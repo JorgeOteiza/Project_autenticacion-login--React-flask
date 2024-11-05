@@ -6,11 +6,11 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from api.utils import generate_sitemap
 from api.models import db
-from api.routes import api  # Importa el Blueprint con las rutas
+from api.routes import api  # Blueprint para las rutas principales
 from api.admin import setup_admin
 from api.commands import setup_commands
-from api.login import login_bp
-from api.protected_routes import protected_bp
+from api.login import login_bp  # Blueprint para login
+from api.protected_routes import protected_bp  # Blueprint para rutas protegidas
 
 # Configuración de la aplicación Flask
 app = Flask(__name__)
@@ -33,13 +33,12 @@ except Exception as e:
     raise
 
 # Configuración de CORS
-CORS(app, resources={r"/*": {"origins": os.getenv("CORS_ORIGIN", "https://petrifying-spooky-poltergeist-7v97v6w49rqgcp57v-3000.app.github.dev/")}}, supports_credentials=True, expose_headers="Authorization, Content-Type")
+CORS(app, resources={r"/*": {"origins": os.getenv("CORS_ORIGIN", "https://localhost:3000")}}, supports_credentials=True)
+
+
 @app.after_request
 def after_request(response):
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    response.headers.add('Access-Control-Allow-Credentials', 'true')
-    response.headers.add('Cross-Origin-Embedder-Policy', 'require-corp')  
+    response.headers.add('Cross-Origin-Embedder-Policy', 'require-corp')
     response.headers.add('Cross-Origin-Opener-Policy', 'same-origin')
     return response
 
@@ -47,9 +46,9 @@ def after_request(response):
 setup_admin(app)
 setup_commands(app)
 
-app.register_blueprint(api, url_prefix='/api')  # Registrar el blueprint para el registro
-app.register_blueprint(login_bp, url_prefix='/login')  # Registrar el blueprint para el login
-app.register_blueprint(protected_bp)  # Registrar el blueprint para rutas protegidas
+app.register_blueprint(api, url_prefix='/api')                     # Blueprint principal
+app.register_blueprint(login_bp, url_prefix='/login')              # Blueprint para login
+app.register_blueprint(protected_bp, url_prefix='/api/protected')  # Blueprint para rutas protegidas
 
 # Manejo de errores
 @app.errorhandler(Exception)
