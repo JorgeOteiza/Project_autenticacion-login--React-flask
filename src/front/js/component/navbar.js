@@ -1,12 +1,13 @@
+// src/front/js/component/navbar.js
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserLock } from "@fortawesome/free-solid-svg-icons";
 import { Context } from "../store/appContext";
 
-export const Navbar = () => {
+const Navbar = () => {
   const { store } = useContext(Context);
-  const userId = store.user?.id || sessionStorage.getItem("userId"); // Usa el ID del usuario desde el store o sessionStorage
+  const userId = store.user?.id || sessionStorage.getItem("userId");
 
   return (
     <nav className="navbar navbar-light bg-secondary opacity-50 py-4">
@@ -19,19 +20,19 @@ export const Navbar = () => {
         </div>
         <div className="ml-auto">
           {userId ? (
-            <Link to={`/private/${userId}`}>
+            <Link to={`/api/private/${userId}`}>
               <button className="btn btn-lg btn-primary rounded-pill">
                 Perfil
               </button>
             </Link>
           ) : (
-            <Link to="/login">
+            <Link to="/api/login">
               <button className="btn btn-outline-light btn-primary rounded-pill">
                 Iniciar Sesión
               </button>
             </Link>
           )}
-          <Link to="/signup">
+          <Link to="/api/signup">
             <button className="btn btn-outline-light btn-dark rounded-pill">
               Registro
             </button>
@@ -41,3 +42,5 @@ export const Navbar = () => {
     </nav>
   );
 };
+
+export default Navbar;

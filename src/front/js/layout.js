@@ -4,12 +4,12 @@ import injectContext from "./store/appContext";
 import Signup from "./component/Signup.jsx";
 import LogIn from "./component/LogIn.jsx";
 import Private from "./component/Private.jsx";
+import Navbar from "./component/navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BackendURL } from "./component/backendURL.jsx";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
-import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
 //create your first component
@@ -31,11 +31,11 @@ const Layout = () => {
           <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
-            <Route element={<Signup />} path="/signup" />
-            <Route element={<Demo />} path="/demo" />
-            <Route element={<LogIn />} path="/login" />
-            <Route element={<Private />} path="/private/:id" />
-            <Route element={<Single />} path="/single/:theid" />
+            <Route element={<Signup />} path="/api/signup" />
+            <Route element={<Demo />} path="/api/demo" />
+            <Route element={<LogIn />} path="/api/login" />
+            <Route element={<Private />} path="/api/private/:id" />
+            <Route element={<Single />} path="/api/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />

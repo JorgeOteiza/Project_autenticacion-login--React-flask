@@ -14,44 +14,44 @@ const getState = ({ getStore, getActions, setStore }) => {
           initial: "white",
         },
       ],
-      user: null, // Debo crear un lugar para almacenar el usuario*
+      user: null, // Lugar para almacenar el usuario
     },
     actions: {
-      // Use getActions to call a function within a function
+      // Ejemplo de función dentro de actions
       exampleFunction: () => {
         getActions().changeColor(0, "green");
       },
 
+      // Función para obtener el mensaje del backend
       getMessage: async () => {
         try {
-          const resp = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/api/hello`
-          );
-          if (!resp.ok) {
-            throw new Error("Failed to fetch message from backend");
-          }
+          const resp = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/hello`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
+          if (!resp.ok) throw new Error("Failed to fetch message from backend");
           const data = await resp.json();
           setStore({ message: data.message });
-          return data;
         } catch (error) {
           console.error("Error loading message from backend", error);
         }
       },
 
+      // Cambia el color de fondo de un elemento específico en demo
       changeColor: (index, color) => {
-        //get the store
         const store = getStore();
-
-        //we have to loop the entire demo array to look for the respective index
-        //and change its color
         const demo = store.demo.map((elm, i) => {
           if (i === index) elm.background = color;
           return elm;
         });
-
-        //reset the global store
         setStore({ demo: demo });
       },
+
+      // Obtiene el perfil de usuario por ID
       getUserProfile: async (id) => {
         try {
           const token = localStorage.getItem("token");
@@ -72,10 +72,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // Inicia sesión del usuario
       login: async (email, password) => {
         try {
           const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/login`,
+            `${process.env.REACT_APP_BACKEND_URL}/api/login`,
             {
               method: "POST",
               headers: {

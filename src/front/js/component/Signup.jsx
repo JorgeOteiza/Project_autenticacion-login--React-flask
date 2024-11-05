@@ -44,7 +44,7 @@ const Signup = () => {
             text: "Tu cuenta ha sido creada exitosamente.",
           });
 
-          navigate(`/private/${data.user.id}`); // Redirige al perfil del usuario
+          navigate(`/api/private/${data.user.id}`); // Redirige al perfil del usuario
         } else {
           throw new Error("No se pudo obtener el perfil del usuario");
         }
