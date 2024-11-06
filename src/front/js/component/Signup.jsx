@@ -25,6 +25,7 @@ const Signup = () => {
 
       if (!response.ok) {
         const data = await response.json();
+        console.log(data);
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -32,8 +33,6 @@ const Signup = () => {
         });
       } else {
         const data = await response.json();
-
-        // Verifica que el usuario y el id existan en la respuesta
         if (data.user && data.user.id) {
           sessionStorage.setItem("token", data.token);
           sessionStorage.setItem("userId", data.user.id);
@@ -44,7 +43,7 @@ const Signup = () => {
             text: "Tu cuenta ha sido creada exitosamente.",
           });
 
-          navigate(`/api/private/${data.user.id}`); // Redirige al perfil del usuario
+          navigate(`/private/${data.user.id}`);
         } else {
           throw new Error("No se pudo obtener el perfil del usuario");
         }

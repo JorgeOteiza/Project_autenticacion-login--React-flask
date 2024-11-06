@@ -14,24 +14,21 @@ const getState = ({ getStore, getActions, setStore }) => {
           initial: "white",
         },
       ],
-      user: null, // Lugar para almacenar el usuario
+      user: null,
     },
     actions: {
-      // Ejemplo de función dentro de actions
       exampleFunction: () => {
         getActions().changeColor(0, "green");
       },
 
-      // Función para obtener el mensaje del backend
+      // Fetches a message from the backend
       getMessage: async () => {
         try {
           const resp = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/hello`, {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            }
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" }
           });
           if (!resp.ok) throw new Error("Failed to fetch message from backend");
           const data = await resp.json();
@@ -41,7 +38,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Cambia el color de fondo de un elemento específico en demo
+      // Changes color of a specific demo item
       changeColor: (index, color) => {
         const store = getStore();
         const demo = store.demo.map((elm, i) => {
@@ -51,18 +48,16 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ demo: demo });
       },
 
-      // Obtiene el perfil de usuario por ID
+      // Fetches the user profile by ID
       getUserProfile: async (id) => {
         try {
-          const token = localStorage.getItem("token");
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/api/user/${id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+          const token = sessionStorage.getItem("token");
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json"
             }
-          );
+          });
           if (!response.ok) throw new Error("Error fetching user profile");
           const data = await response.json();
           return data;
@@ -72,35 +67,58 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Inicia sesión del usuario
+      // Logs in the user
       login: async (email, password) => {
         try {
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/api/login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ email, password }),
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Login failed");
-          }
-
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+            credentials: "include"
+          });
+          if (!response.ok) throw new Error("Login failed");
           const data = await response.json();
-          sessionStorage.setItem("token", data.token); // Almacena el token en sessionStorage
-          sessionStorage.setItem("userId", data.user.id); // Almacena el userId en sessionStorage
-          setStore({ user: data.user }); // Guarda el usuario en el store
-
-          return true; // Login exitoso
+          sessionStorage.setItem("token", data.token);
+          sessionStorage.setItem("userId", data.user.id);
+          setStore({ user: data.user });
+          return true;
         } catch (error) {
           console.error("Login error:", error);
-          return false; // Error en el login
+          return false;
         }
       },
+
+      // Registers a new user
+      signup: async (email, password) => {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/signup`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+            credentials: "include"
+          });
+          if (!response.ok) throw new Error("Signup failed");
+          const data = await response.json();
+          sessionStorage.setItem("token", data.token);
+          sessionStorage.setItem("userId", data.user.id);
+          setStore({ user: data.user });
+          return true;
+        } catch (error) {
+          console.error("Signup error:", error);
+          return false;
+        }
+      },
+
+      // Logs out the user
+      logout: () => {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("userId");
+        setStore({ user: null });
+      }
     },
   };
 };

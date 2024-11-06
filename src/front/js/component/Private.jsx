@@ -27,7 +27,7 @@ const Private = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/private/:id`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },

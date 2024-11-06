@@ -20,23 +20,25 @@ const Navbar = () => {
         </div>
         <div className="ml-auto">
           {userId ? (
-            <Link to={`/api/private/${userId}`}>
+            <Link to={`/private/${userId}`}>
               <button className="btn btn-lg btn-primary rounded-pill">
                 Perfil
               </button>
             </Link>
           ) : (
-            <Link to="/api/login">
-              <button className="btn btn-outline-light btn-primary rounded-pill">
-                Iniciar Sesión
-              </button>
-            </Link>
+            <>
+              <Link to="/login">
+                <button className="btn btn-outline-light btn-primary rounded-pill">
+                  Iniciar Sesión
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button className="btn btn-outline-light btn-dark rounded-pill">
+                  Registro
+                </button>
+              </Link>
+            </>
           )}
-          <Link to="/api/signup">
-            <button className="btn btn-outline-light btn-dark rounded-pill">
-              Registro
-            </button>
-          </Link>
         </div>
       </div>
     </nav>

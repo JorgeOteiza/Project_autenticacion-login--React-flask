@@ -19,7 +19,7 @@ const LogIn = () => {
         title: "Inicio de sesión exitoso",
       });
       const userId = sessionStorage.getItem("userId");
-      navigate(`/api/private/${userId}`);
+      navigate(`/private/${userId}`);
     } else {
       Swal.fire({
         icon: "error",
