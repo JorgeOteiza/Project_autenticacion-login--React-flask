@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import Logout from "./LogOut.jsx";
+import Swal from "sweetalert2";
 
-// Componente para verificar el token y proteger la página
 const PrivatePage = ({ children }) => {
   const navigate = useNavigate();
 
@@ -17,9 +17,7 @@ const PrivatePage = ({ children }) => {
   return <>{children}</>;
 };
 
-// Componente de Private
 const Private = () => {
-  const { store, actions } = useContext(Context);
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -27,14 +25,17 @@ const Private = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/private/:id`, {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/api/profile/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
 
         if (!response.ok) {
-          throw new Error('Error al obtener el perfil');
+          throw new Error("Error al obtener el perfil");
         }
 
         const data = await response.json();
@@ -50,7 +51,7 @@ const Private = () => {
     };
 
     fetchProfile();
-  }, [navigate]);
+  }, [id, navigate]);
 
   if (!user) {
     return (

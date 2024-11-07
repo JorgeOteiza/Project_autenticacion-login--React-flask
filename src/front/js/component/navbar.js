@@ -1,4 +1,3 @@
-// src/front/js/component/navbar.js
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +19,7 @@ const Navbar = () => {
         </div>
         <div className="ml-auto">
           {userId ? (
-            <Link to={`/private/${userId}`}>
+            <Link to={`/profile/${userId}`}>
               <button className="btn btn-lg btn-primary rounded-pill">
                 Perfil
               </button>

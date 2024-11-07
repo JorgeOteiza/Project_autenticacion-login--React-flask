@@ -9,6 +9,7 @@ from api.routes import api  # Blueprint de rutas de la API
 from api.admin import setup_admin
 from api.commands import setup_commands
 from api.login import login_bp  # Blueprint para login
+from api.profile import profile_bp
 
 app = Flask(__name__)
 
@@ -36,7 +37,7 @@ setup_admin(app)
 setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(login_bp, url_prefix='/api/login')
-app.register_blueprint(profile_bp, url_prefix='/api')
+app.register_blueprint(profile_bp, url_prefix='/profile')
 
 @app.route('/')
 def sitemap():

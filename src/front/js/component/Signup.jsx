@@ -17,15 +17,14 @@ const Signup = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          mode: 'cors',
-          credentials: 'include', 
+          mode: "cors",
+          credentials: "include",
           body: JSON.stringify({ email, password }),
         }
       );
 
       if (!response.ok) {
         const data = await response.json();
-        console.log(data);
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -43,7 +42,7 @@ const Signup = () => {
             text: "Tu cuenta ha sido creada exitosamente.",
           });
 
-          navigate(`/private/${data.user.id}`);
+          navigate(`/profile/${data.user.id}`);
         } else {
           throw new Error("No se pudo obtener el perfil del usuario");
         }

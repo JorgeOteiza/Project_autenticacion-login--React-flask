@@ -1,4 +1,4 @@
-from api.models import db, User # importa modelos
+from api.models import db, User
 from sqlalchemy_schemadisplay import create_schema_graph
 from sqlalchemy import MetaData
 
@@ -15,4 +15,4 @@ graph = create_schema_graph(
 )
 
 # Exportar el gráfico a un archivo .jpg
-graph.write_jpg('diagrama.jpg')
+graph.write_jpg('/src/diagrama.jpg')

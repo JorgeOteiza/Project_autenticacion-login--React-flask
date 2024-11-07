@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import "../../styles/logIn.css";
 
 const LogIn = () => {
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const LogIn = () => {
         title: "Inicio de sesión exitoso",
       });
       const userId = sessionStorage.getItem("userId");
-      navigate(`/private/${userId}`);
+      navigate(`/profile/${userId}`);
     } else {
       Swal.fire({
         icon: "error",
