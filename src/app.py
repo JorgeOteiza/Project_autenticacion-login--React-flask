@@ -52,6 +52,16 @@ def serve_any_other_file(path):
         path = 'index.html'
     return send_from_directory(static_file_dir, path)
 
+# Manejo de errores generales
+@app.errorhandler(Exception)
+def handle_exception(e):
+    """Maneja errores generales y los responde en formato JSON."""
+    response = {
+        "message": "An error occurred",
+        "error": str(e)
+    }
+    return jsonify(response), 500
+
 if __name__ == '__main__':
     PORT = int(os.getenv('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
