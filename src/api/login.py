@@ -1,4 +1,3 @@
-# login.py: Rutas para login de usuarios
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
 from api.models import User, db

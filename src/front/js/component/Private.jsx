@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import Logout from "./LogOut.jsx";
 import Swal from "sweetalert2";
+import "../../styles/perfil.css";
 
 const PrivatePage = ({ children }) => {
   const navigate = useNavigate();
@@ -64,10 +65,21 @@ const Private = () => {
   return (
     <PrivatePage>
       <div className="perfil-container">
-        <h1>Perfil de {user.email}</h1>
-        <p>ID: {user.id}</p>
-        <p>Email: {user.email}</p>
-        <Logout />
+        <div className="perfil-header">
+          <div className="profile-pic-container">
+            <img
+              src="https://via.placeholder.com/150"
+              alt="Foto de perfil"
+              className="profile-pic"
+            />
+          </div>
+          <h1>Bienvenido, {user.email}!</h1>
+          <p className="user-id">ID: {user.id}</p>
+        </div>
+        <div className="perfil-actions">
+          <button className="edit-profile-button">Editar Perfil</button>
+          <Logout />
+        </div>
       </div>
     </PrivatePage>
   );

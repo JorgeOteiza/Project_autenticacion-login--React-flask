@@ -45,7 +45,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (i === index) elm.background = color;
           return elm;
         });
-        setStore({ demo: demo });
+        setStore({ demo });
       },
 
       // Fetches the user profile by ID
@@ -75,14 +75,17 @@ const getState = ({ getStore, getActions, setStore }) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, password }),
-            credentials: "include"
+            mode: "cors",
+            credentials: "include",
+            body: JSON.stringify({ email, password })
           });
           if (!response.ok) throw new Error("Login failed");
+
           const data = await response.json();
           sessionStorage.setItem("token", data.token);
           sessionStorage.setItem("userId", data.user.id);
           setStore({ user: data.user });
+          
           return true;
         } catch (error) {
           console.error("Login error:", error);
@@ -102,6 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             credentials: "include"
           });
           if (!response.ok) throw new Error("Signup failed");
+
           const data = await response.json();
           sessionStorage.setItem("token", data.token);
           sessionStorage.setItem("userId", data.user.id);
